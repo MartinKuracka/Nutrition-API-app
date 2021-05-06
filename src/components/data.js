@@ -1,8 +1,9 @@
-import { useEffect } from 'react';
+import { useState, useEffect } from 'react';
 
 const Data = () => {
 
     useEffect(() => {getData()}, []);
+    const [nutritionalfacts, updatefacts] = useState();
 
     async function getData() {
     const response = await fetch('https://trackapi.nutritionix.com/v2/natural/nutrients', {
@@ -16,13 +17,15 @@ const Data = () => {
             'query': 'eggs'
         }),
     })
-    const results = await response.json();
-    console.log(results)
+    let results = await response.json();
+    updatefacts(results);
+    console.log(results);
+    return results;
     }
 
     return(
         <div>
-            Data
+            {nutritionalfacts ? '..Loaded' : '...Loading'}
         </div>
     )
 }
