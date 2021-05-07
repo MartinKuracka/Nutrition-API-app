@@ -1,12 +1,32 @@
+.container {
+    display: flex;
+    width: 60%;
+    min-width: 1000px;
+    height: 500px;
+    margin: 0px auto;
+    background: rgb(187,43,52);
+    background: -moz-linear-gradient(274deg, rgba(187,43,52,1) 0%, rgba(129,35,112,1) 100%);
+    background: -webkit-linear-gradient(274deg, rgba(187,43,52,1) 0%, rgba(129,35,112,1) 100%);
+    background: linear-gradient(274deg, rgba(187,43,52,1) 0%, rgba(129,35,112,1) 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#bb2b34",endColorstr="#812370",GradientType=1);
+    border-radius: 15px;
+    box-shadow: 5px 5px 10px;
+}
+
 .datafield {
     display: flex;
     flex-direction: column;
     justify-content: center;
 }
 
+.nutrition-line-text {
+    display: inline-flex;
+    justify-content:  space-between;
+}
+
 .inputfield {
     display: inline-flex;
-    width: 20%;
+    align-self: center;
     margin-bottom: 25px;
 }
 
@@ -14,11 +34,54 @@
     display: flex;
     flex-direction: column;
     text-align: start;
-    width: 30%;
-    min-width: 400px;
+    width: 50%;
     padding:20px;
     margin: 0px auto;
-    background: linear-gradient(180deg, rgba(24,27,22,1) 0%, rgba(41,143,184,1) 100%);
     color: white;
-    border-radius: 15px;
+}
+
+.w-60 {
+    display: flex;
+    flex-direction: column;
+    text-align: start;
+    width:60%;
+    padding:20px;
+    margin: 0px auto;
+    color: white;
+}
+
+.initial_p {
+    margin-top: 30px;
+    font-weight: 800;
+}
+
+.image-cont {
+    display: flex;
+    width: 50%;
+    height: 500px;
+}
+
+img {
+    max-width:400px;
+    max-height: 400px;
+    margin: 0px auto;
+    margin-top: auto;
+    margin-bottom: auto;
+}
+
+input {
+    height: 2rem;
+    border-radius: 20px;
+    padding: 0px 10px;
+    outline: none;
+}
+
+button {
+    height: 2.2rem;
+    border-radius: 20px;
+    margin-left: 15px;
+    padding: 0px 10px;
+    width: 6rem;
+    background-color:rgba(24,27,22,1);
+    color: white;
 }

@@ -5,23 +5,23 @@ const Data = () => {
 
     const [nutritionalfacts, updatefacts] = useState();
     const [foodtype, updatefoodtype] = useState();
+    const [coeficient, setCoeficient] = useState(1);
 
     async function getData(foodtype) {
-    const response = await fetch('https://trackapi.nutritionix.com/v2/natural/nutrients', {
-        method: 'POST',        
-        headers: {
-            'Content-Type': 'application/json',
-            'x-app-id': '93284885',
-            'x-app-key': '4c93e601c73eb2920c8632fe5eab32e6'
-        },
-        body: JSON.stringify({
-            'query': foodtype
-        }),
-    })
-    let results = await response.json();
-    updatefacts(results);
-    // console.log(results.foods[0]);
-    return results;
+        const response = await fetch('https://trackapi.nutritionix.com/v2/natural/nutrients', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'x-app-id': '93284885',
+                'x-app-key': '4c93e601c73eb2920c8632fe5eab32e6'
+            },
+            body: JSON.stringify({
+                'query': foodtype
+            }),
+        })
+        let results = await response.json();
+        updatefacts(results);
+        setCoeficient(100/results.foods[0].serving_weight_grams);
     }
 
     const waiting = () => {
@@ -31,23 +31,48 @@ const Data = () => {
     }
 
     const showNutritions = () => {
-        // console.log(nutritionalfacts.foods[0]);
-        let foodType = nutritionalfacts.foods[0].food_name;
-        let weigth = nutritionalfacts.foods[0].serving_weight_grams;
-        let calories = nutritionalfacts.foods[0].nf_calories;
-        let cholesterol = nutritionalfacts.foods[0].nf_cholesterol;
-        let protein = nutritionalfacts.foods[0].nf_protein;
-        let fat = nutritionalfacts.foods[0].nf_total_fat;
-        let carbs = nutritionalfacts.foods[0].nf_total_carbohydrate;
+        console.log(nutritionalfacts.foods[0]);
+        const {food_name, nf_calories, nf_cholesterol, nf_protein, nf_total_fat, nf_total_carbohydrate, photo } = nutritionalfacts.foods[0];        
+        let foodType = food_name;
+        let calories = Math.floor(nf_calories*coeficient*10)/10;
+        let cholesterol = Math.floor(nf_cholesterol*coeficient*10)/10;
+        let protein = Math.floor(nf_protein*coeficient*10)/10;
+        let fat = Math.floor(nf_total_fat*coeficient*10)/10;
+        let carbs = Math.floor(nf_total_carbohydrate*coeficient*10)/10;
+        let image = photo.highres;
         return(
-            <div className='facts_table'>
-                <h2>Nutritional facts for {foodType} per {weigth} grams:</h2>
-                <p>Calories: {calories}</p>
-                <p>Fat: {fat}</p>
-                <p>Carbohydrates: {carbs}</p>
-                <p>Protein: {protein}</p>
-                <p>Cholesterol: {cholesterol}</p>
-            </div>   
+            <>
+            <div className='container'>
+                <div className='facts_table'>
+                    <h2>Nutritional facts for {foodType} per 100 grams:</h2>
+                    <div className='w-60'>
+                        <div className='initial_p nutrition-line-text'>
+                            <p>Calories:</p>
+                            <p>{calories}</p>
+                        </div>
+                        <div className='nutrition-line-text'>
+                            <p>Fat:</p>
+                            <p>{fat}</p>
+                        </div>
+                        <div className='nutrition-line-text'>
+                            <p>Carbohydrates:</p>
+                            <p>{carbs}</p>
+                        </div>
+                        <div className='nutrition-line-text'>
+                            <p>Protein:</p>
+                            <p>{protein}</p>
+                        </div>
+                        <div className='nutrition-line-text'>
+                            <p>Cholesterol:</p>
+                            <p>{cholesterol}</p>
+                        </div>
+                    </div>
+                </div>
+                <div className='image-cont'>
+                  <img src={image} />
+                </div>
+            </div>
+            </>
         )
     }
 
@@ -60,9 +85,9 @@ const Data = () => {
     }
 
     return(
-        <div classname='datafield'>
+        <div className='datafield'>
             <div className='inputfield'>
-                <input type='text' onChange={handleInput}></input>
+                <input type='text' onChange={handleInput} autoFocus/>
                 <button type='submit' onClick={handleSubmit}>Submit</button>
             </div>
             {nutritionalfacts ? showNutritions() : waiting()}
